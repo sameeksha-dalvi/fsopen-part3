@@ -79,6 +79,14 @@ app.post('/api/persons', (request, response) => {
         return response.status(400).json({ error: 'number missing' })
     }
 
+    //check if name already exists
+    const personExists = persons.find(p => p.name === body.name)
+    //console.log("personExists", personExists);
+
+    if (personExists !== undefined) {
+        return response.status(400).json({ error: 'name must be unique' })
+    }
+
     const person = {
         name: body.name,
         number: body.number,
