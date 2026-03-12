@@ -100,22 +100,31 @@ app.post('/api/persons', (request, response) => {
     }
 
     //check if name already exists
-    const personExists = persons.find(p => p.name === body.name)
-    //console.log("personExists", personExists);
+    // const personExists = persons.find(p => p.name === body.name)
+    // //console.log("personExists", personExists);
 
-    if (personExists !== undefined) {
-        return response.status(400).json({ error: 'name must be unique' })
-    }
+    // if (personExists !== undefined) {
+    //     return response.status(400).json({ error: 'name must be unique' })
+    // }
 
-    const person = {
-        name: body.name,
-        number: body.number,
-        id: generateId(),
+    // const person = {
+    //     name: body.name,
+    //     number: body.number,
+    //     id: generateId(),
 
-    }
+    // }
 
-    persons = persons.concat(person)
-    response.json(person)
+    // persons = persons.concat(person)
+    // response.json(person)
+
+    const person = new Person({
+        name:body.name,
+        number:body.number,
+    })
+
+    person.save().then(savedPerson =>{
+        response.json(savedPerson)
+    })
 
 })
 
