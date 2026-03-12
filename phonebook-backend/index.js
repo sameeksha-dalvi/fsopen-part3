@@ -54,13 +54,18 @@ app.get('/api/persons', (request, response) => {
     })
 })
 
-app.get('/info', (request, response) => {
-    const entries = persons.length;
+app.get('/info', (request, response, next) => {
+
     const date = new Date();
 
-    response.send(`<p>Phonebook has info for ${entries} people </p>
-        <p>${date}<p/>
+    Person.find({}).then(persons => {
+        const entries = persons.length;
+        response.send(`<p>Phonebook has info for ${entries} people </p>
+        <p>${date}</p>
         `)
+    }).catch(error => next(error))
+
+    
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
